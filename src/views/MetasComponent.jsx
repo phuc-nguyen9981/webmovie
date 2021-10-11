@@ -13,12 +13,15 @@ const ALLOWED_PROPS = [
 const MetasComponent = ({ movie = {} }) => {
   return (
     <div className="row py-3">
-      <div className="col-3 d-flex justify-content-center align-items-center ">
+      <div className="mb-3 col-12 lg-title">
+        <h1 className="">{movie?.Title || "Title"}</h1>
+      </div>
+      <div className="col-6 col-lg-3 d-flex justify-content-center align-items-center ">
         <img src={movie.Poster || ""} alt="Movie Poster" />
       </div>
       <div className="col-6 col-lg-9">
         <h1 className="title">{movie?.Title || "Title"}</h1>
-        <div className="d-flex flex-wrap">
+        <div className="meta-content d-flex">
           {Object.keys(movie).map((key) => {
             if (!ALLOWED_PROPS.includes(key)) {
               return null;

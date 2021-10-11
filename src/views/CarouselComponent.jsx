@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import Slider from "react-slick";
 import { Form } from "react-bootstrap";
 import Poster from "../components/Poster";
@@ -28,15 +28,6 @@ function PrevArrowComp(props) {
     />
   );
 }
-const SLIDER_SETTING = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 5,
-  nextArrow: <NextArrowComp />,
-  prevArrow: <PrevArrowComp />,
-};
 
 const CarouselComponent = ({
   movies = [],
@@ -44,12 +35,35 @@ const CarouselComponent = ({
   onChangeGenre = () => {},
   onMovieClick = () => {},
 }) => {
+  const SLIDER_SETTING = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    nextArrow: <NextArrowComp />,
+    prevArrow: <PrevArrowComp />,
+    responsive: [
+      {
+        breakpoint: "992px",
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
+  };
+  const [currentSlide, setCurrentSlide] = useState(0);
   const handleChangeGenre = useCallback(
     (e) => {
+      setCurrentSlide(0);
       onChangeGenre(e.target.value);
     },
-    [onChangeGenre]
+    [setCurrentSlide, onChangeGenre]
   );
+
+  SLIDER_SETTING.initialSlide = currentSlide;
+  SLIDER_SETTING.responsive[0].initialSlide = currentSlide;
 
   return (
     <div className="py-3 px-5 row">
@@ -67,7 +81,12 @@ const CarouselComponent = ({
         </Form.Select>
       </div>
       <div className="mt-4 carousel">
-        <Slider {...SLIDER_SETTING}>
+        <Slider
+          {...SLIDER_SETTING}
+          afterChange={(index) => {
+            setCurrentSlide(index);
+          }}
+        >
           {movies.map((item, index) => (
             <Poster
               key={item.Id}
