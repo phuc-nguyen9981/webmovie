@@ -8,8 +8,9 @@
 }
 
 .poster {
-  max-height: 444px !important;
-  max-width: 300px !important;
+  object-fit: cover;
+  height: 444px !important;
+  width: 300px !important;
 }
 
 .carousel-select {

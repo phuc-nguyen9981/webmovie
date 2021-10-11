@@ -11,6 +11,9 @@ const ALLOWED_PROPS = [
 ];
 
 const MetasComponent = ({ movie = {} }) => {
+  if (Object.keys(movie).length === 0) {
+    return <></>;
+  }
   return (
     <div className="row py-3">
       <div className="mb-3 col-12 lg-title">

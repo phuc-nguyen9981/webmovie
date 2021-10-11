@@ -65,6 +65,10 @@ const CarouselComponent = ({
   SLIDER_SETTING.initialSlide = currentSlide;
   SLIDER_SETTING.responsive[0].initialSlide = currentSlide;
 
+  if (movies.length === 0) {
+    return <h2>No movies found.</h2>;
+  }
+
   return (
     <div className="py-3 px-5 row">
       <div className="w-100 mr-3 d-flex justify-content-end">

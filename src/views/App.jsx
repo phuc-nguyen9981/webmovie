@@ -16,13 +16,19 @@ function App() {
   const [genres, setGenres] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(0);
   const [selectedGenre, setSelectedGenre] = useState("All");
+  const [errorLoading, setErrorLoading] = useState(false);
 
   useEffect(() => {
-    getMovies().then((data) => {
-      setMovies(data.movies);
-      setGenres([...data.genres]);
-      setLoading(false);
-    });
+    getMovies()
+      .then((data) => {
+        setMovies(data.movies);
+        setGenres([...data.genres]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setErrorLoading(true);
+      });
   }, []);
 
   const onChangeGenre = useCallback(
@@ -49,6 +55,11 @@ function App() {
     return result;
   }, [movies, selectedGenre]);
 
+  if (errorLoading) {
+    return (
+      <h1>There is an error when we trying to fetch data. Please try again.</h1>
+    );
+  }
   if (loading) {
     return <h1>Loading</h1>;
   }
